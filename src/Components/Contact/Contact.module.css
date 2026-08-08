@@ -4,6 +4,11 @@
   margin: 0 auto;
 }
 
+.eyebrow {
+  display: none;
+  margin-bottom: 0.75rem;
+}
+
 .container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -11,7 +16,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border);
   padding: 3rem;
-  border-radius: 24px;
+  border-radius: var(--radius);
 }
 
 .title {
@@ -25,6 +30,10 @@
   margin-bottom: 2rem;
 }
 
+.description strong {
+  color: var(--text-main);
+}
+
 .contactCards {
   display: flex;
   flex-direction: column;
@@ -32,10 +41,10 @@
 }
 
 .contactCard {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-main);
   border: 1px solid var(--border);
   padding: 1rem 1.25rem;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   display: flex;
   flex-direction: column;
 }
@@ -63,10 +72,14 @@
   border: 1px solid var(--border);
   color: var(--text-main);
   padding: 0.9rem 1.1rem;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-family: inherit;
   font-size: 0.95rem;
   transition: var(--transition);
+}
+
+.form input::placeholder, .form textarea::placeholder {
+  color: var(--text-muted);
 }
 
 .form input:focus, .form textarea:focus {
@@ -76,19 +89,19 @@
 }
 
 .sendBtn {
-  background: var(--gradient-accent);
-  color: white;
+  background: var(--accent);
+  color: var(--accent-contrast);
   border: none;
   padding: 0.9rem;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .sendBtn:hover {
-  opacity: 0.95;
   transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
 .successMsg {
@@ -96,7 +109,7 @@
   color: #4ade80;
   border: 1px solid rgba(34, 197, 94, 0.3);
   padding: 0.75rem;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   font-size: 0.9rem;
   text-align: center;
 }

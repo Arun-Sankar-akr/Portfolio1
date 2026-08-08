@@ -27,14 +27,14 @@ export default function Navbar() {
           <a href="#about" onClick={() => setIsOpen(false)}>About & Skills</a>
           <a href="#projects" onClick={() => setIsOpen(false)}>Projects</a>
           <a href="#contact" onClick={() => setIsOpen(false)}>Contact</a>
-          
+
           <button onClick={toggleTheme} className={styles.themeBtn} aria-label="Toggle Theme">
-            {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+            {theme === 'dark' ? '☀ Light' : '● Dark'}
           </button>
         </div>
 
-        <button 
-          className={`${styles.hamburger} ${isOpen ? styles.open : ''}`} 
+        <button
+          className={`${styles.hamburger} ${isOpen ? styles.open : ''}`}
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Menu"
         >

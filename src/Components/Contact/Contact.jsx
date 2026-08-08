@@ -14,6 +14,7 @@ export default function Contact() {
 
   return (
     <section className={styles.section}>
+      <span className={`eyebrow ${styles.eyebrow}`}>// 03 — get in touch</span>
       <div className={styles.container}>
         <div className={styles.infoCol}>
           <h2 className={styles.title}>Let's Connect 👋</h2>
@@ -36,25 +37,25 @@ export default function Contact() {
 
         <form className={styles.form} onSubmit={handleSubmit}>
           {sent && <div className={styles.successMsg}>✓ Thank you! Your message has been noted.</div>}
-          
-          <input 
-            type="text" 
+
+          <input
+            type="text"
             placeholder="Your Full Name"
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
             required
           />
 
-          <input 
-            type="email" 
+          <input
+            type="email"
             placeholder="Your Email Address"
             value={formData.email}
             onChange={(e) => setFormData({...formData, email: e.target.value})}
             required
           />
 
-          <textarea 
-            rows="4" 
+          <textarea
+            rows="4"
             placeholder="Your Message..."
             value={formData.message}
             onChange={(e) => setFormData({...formData, message: e.target.value})}

@@ -22,11 +22,11 @@
 .tabBar {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   margin-bottom: 3rem;
   background: var(--bg-card);
   padding: 0.4rem;
-  border-radius: 30px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   max-width: max-content;
   margin-left: auto;
@@ -38,17 +38,21 @@
   border: none;
   color: var(--text-muted);
   padding: 0.6rem 1.25rem;
-  border-radius: 20px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
   transition: var(--transition);
 }
 
-.activeTab {
+.tabBtn:hover {
+  color: var(--text-main);
+}
+
+.activeTab, .activeTab:hover {
   background: var(--accent);
-  color: #ffffff;
-  box-shadow: var(--shadow-glow);
+  color: var(--accent-contrast);
 }
 
 .skillsGrid {
@@ -84,9 +88,10 @@
 }
 
 .skillLevel {
-  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .timeline {
@@ -108,15 +113,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .scoreBadge {
-  background: rgba(56, 189, 248, 0.15);
+  font-family: var(--font-mono);
+  background: var(--accent-soft);
   color: var(--accent);
   padding: 0.2rem 0.6rem;
-  border-radius: 6px;
-  font-weight: 700;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
   font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 .college {
@@ -125,7 +133,8 @@
 }
 
 .period {
-  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   color: var(--accent);
 }
 
@@ -144,16 +153,22 @@
 
 .extraCard h3 {
   margin-top: 0;
+  font-size: 1.1rem;
   color: var(--accent);
 }
 
 .list {
   padding-left: 1.2rem;
   margin: 0;
+  color: var(--text-muted);
 }
 
 .list li {
   margin-bottom: 0.8rem;
+}
+
+.list strong {
+  color: var(--text-main);
 }
 
 @media (max-width: 768px) {

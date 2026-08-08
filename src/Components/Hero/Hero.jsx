@@ -8,15 +8,17 @@ export default function Hero() {
       <div className={styles.container}>
         <div className={styles.statusBadge}>
           <span className={styles.pulseDot}></span>
-          Available for Frontend & Web Roles
+          <span className={styles.statusText}>Available-for-Frontend | React</span>
         </div>
 
         <h1 className={styles.title}>
           Hi, I'm <span className={styles.gradientText}>Arun Sankar Ram</span>
+          <span className={styles.cursor} aria-hidden="true">_</span>
         </h1>
 
         <p className={styles.tagline}>
-          M.Sc. Computer Science Graduate & Frontend Developer building responsive, high-performance web interfaces with <strong>React.js</strong> and modern JavaScript.
+          M.Sc. Computer Science graduate &amp; frontend developer building responsive,
+          high-performance web interfaces with <strong>React.js</strong> and modern JavaScript.
         </p>
 
         <div className={styles.actions}>

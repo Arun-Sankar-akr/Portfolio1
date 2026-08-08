@@ -10,12 +10,12 @@
 
 .glowBg {
   position: absolute;
-  top: 20%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%);
+  width: 560px;
+  height: 560px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0, 0, 0, 0) 70%);
   z-index: 0;
   pointer-events: none;
 }
@@ -31,37 +31,63 @@
 .statusBadge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(56, 189, 248, 0.1);
+  gap: 10px;
+  background: var(--accent-soft);
   border: 1px solid var(--border-hover);
-  padding: 0.4rem 1rem;
-  border-radius: 30px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--accent);
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-pill);
   margin-bottom: 2rem;
 }
 
+.statusText {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.01em;
+}
+
 .pulseDot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
   background-color: var(--accent);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .title {
   font-size: 3.75rem;
   font-weight: 800;
   line-height: 1.1;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   margin-bottom: 1.5rem;
 }
 
 .gradientText {
   background: var(--gradient-accent);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--accent);
+  font-weight: 500;
+  animation: blink 1.1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
 }
 
 .tagline {
@@ -74,6 +100,7 @@
 
 .tagline strong {
   color: var(--text-main);
+  font-weight: 600;
 }
 
 .actions {
@@ -85,7 +112,7 @@
 
 .primaryBtn, .secondaryBtn {
   padding: 0.9rem 1.8rem;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 1rem;
   text-decoration: none;
@@ -96,14 +123,13 @@
 }
 
 .primaryBtn {
-  background: var(--gradient-accent);
-  color: #ffffff;
-  box-shadow: var(--shadow-glow);
+  background: var(--accent);
+  color: var(--accent-contrast);
 }
 
 .primaryBtn:hover {
   transform: translateY(-2px);
-  opacity: 0.95;
+  box-shadow: var(--shadow-glow);
 }
 
 .secondaryBtn {
@@ -124,9 +150,8 @@
   gap: 2rem;
   background: var(--bg-card);
   padding: 1rem 2rem;
-  border-radius: 20px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
-  backdrop-filter: blur(10px);
 }
 
 .stat {
@@ -135,8 +160,9 @@
 }
 
 .statNumber {
-  font-size: 1.4rem;
-  font-weight: 800;
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  font-weight: 600;
   color: var(--accent);
 }
 

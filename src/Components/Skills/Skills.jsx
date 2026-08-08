@@ -46,19 +46,19 @@ export default function Skills() {
 
         {/* Tab Switcher */}
         <div className={styles.tabBar}>
-          <button 
+          <button
             className={`${styles.tabBtn} ${activeTab === 'skills' ? styles.activeTab : ''}`}
             onClick={() => setActiveTab('skills')}
           >
             Technical Stack
           </button>
-          <button 
+          <button
             className={`${styles.tabBtn} ${activeTab === 'education' ? styles.activeTab : ''}`}
             onClick={() => setActiveTab('education')}
           >
             Education
           </button>
-          <button 
+          <button
             className={`${styles.tabBtn} ${activeTab === 'certs' ? styles.activeTab : ''}`}
             onClick={() => setActiveTab('certs')}
           >
