@@ -1,11 +1,11 @@
 import React from 'react';
 import { ThemeProvider } from "./Context/ThemeContext";
-import Navbar from './components/Navbar/Navbar';
-import Hero from './components/Hero/Hero';
-import Skills from './components/Skills/Skills';
-import Projects from './components/Projects/Projects';
-import Contact from './components/Contact/Contact';
-import './styles/variables.css';
+import Navbar from './Components/Navbar/Navbar';
+import Hero from './Components/Hero/Hero';
+import Skills from './Components/Skills/Skills';
+import Projects from './Components/Projects/Projects';
+import Contact from './Components/Contact/Contact';
+import './Styles/variables.css';
 
 export default function App() {
   return (
