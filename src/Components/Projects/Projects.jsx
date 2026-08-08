@@ -5,7 +5,7 @@ const projects = [
   {
     title: "Travels Management Platform",
     category: "Full Frontend Web App",
-    year: "2025",
+    year: "2026",
     description: "Built a fully responsive travel portal enabling users to explore destination packages, view itineraries, and handle bookings through intuitive dynamic UI controls.",
     tags: ["HTML5", "CSS3", "Bootstrap", "JavaScript", "Netlify"],
     link: "https://ssttravel.netlify.app/en",
