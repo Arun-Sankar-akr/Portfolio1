@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider } from "./Context/ThemeContext";
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import Skills from './components/Skills/Skills';
