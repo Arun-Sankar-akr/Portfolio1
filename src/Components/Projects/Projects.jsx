@@ -35,7 +35,7 @@ const projects = [
     year: "2023",
     description: "Designed a web portal enabling students and faculty to view real-time parking space availability and reserve slots online prior to campus arrival.",
     tags: ["JavaScript", "HTML5", "CSS3", "Web Systems"],
-    link: null,
+    link: "https://onlineparkingbooking.netlify.app/",
     badge: "Campus System"
   }
 ];
