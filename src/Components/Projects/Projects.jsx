@@ -37,6 +37,15 @@ const projects = [
     tags: ["JavaScript", "HTML5", "CSS3", "Web Systems"],
     link: "https://onlineparkingbooking.netlify.app/",
     badge: "Campus System"
+  },
+  {
+    title: "Earth Basket - Online Organic Grocery Store",
+    category: "E-Commerce Web App",
+    year: "2026",
+    description: "Developed an e-commerce platform for ordering fresh, organic groceries and daily staples online, featuring product categorization, cart management, and an intuitive checkout workflow.",
+    tags: ["JavaScript", "HTML5", "CSS3", "React", "Web Systems"],
+    link: "https://earthbasket.netlify.app/",
+    badge: "E-Commerce"
   }
 ];
 
