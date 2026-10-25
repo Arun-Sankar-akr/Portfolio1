@@ -1,24 +1,24 @@
 /* ---------- Theme tokens: dark is the default, light overrides ---------- */
 .band {
   --bg: #02020f;
+  --core: #0b0b32;
   --fg: #fff;
   --fg-soft: rgba(223, 227, 255, 0.68);
   --accent: #9aa2ff;
   --accent-soft: rgba(125, 134, 255, 0.2);
-  --glass: linear-gradient(160deg, rgba(40, 40, 120, 0.35), rgba(10, 10, 45, 0.55));
+  --glass: linear-gradient(160deg, rgba(52, 52, 150, 0.5), rgba(14, 14, 56, 0.7));
   --line: rgba(160, 170, 255, 0.22);
-  --line-hover: rgba(160, 170, 255, 0.55);
+  --line-hover: rgba(160, 170, 255, 0.6);
   --glow: rgba(110, 100, 255, 0.55);
-  --spot: rgba(140, 150, 255, 0.28);
-  --shadow: 0 24px 50px -24px rgba(60, 60, 255, 0.6);
-  --seg-off: rgba(160, 170, 255, 0.18);
+  --shadow: 0 34px 60px -30px rgba(60, 60, 255, 0.75);
+  --seg-off: rgba(160, 170, 255, 0.2);
   --tab-bg: rgba(12, 12, 44, 0.55);
   --floor-line: rgba(150, 140, 255, 0.14);
 
   position: relative;
   padding: 6rem 1.5rem 7rem;
   background:
-    radial-gradient(60% 40% at 50% 0%, rgba(60, 60, 255, 0.22), transparent),
+    radial-gradient(60% 40% at 50% 0%, rgba(60, 60, 255, 0.24), transparent),
     var(--bg);
   color: var(--fg);
   overflow: hidden;
@@ -27,22 +27,22 @@
 
 .band[data-mode='light'] {
   --bg: #f3f4ff;
+  --core: #ffffff;
   --fg: #10123a;
   --fg-soft: rgba(16, 18, 58, 0.68);
   --accent: #4f46e5;
   --accent-soft: rgba(79, 70, 229, 0.12);
-  --glass: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(238, 240, 255, 0.85));
+  --glass: linear-gradient(160deg, rgba(255, 255, 255, 0.95), rgba(232, 235, 255, 0.85));
   --line: rgba(79, 70, 229, 0.18);
   --line-hover: rgba(79, 70, 229, 0.5);
   --glow: rgba(99, 102, 241, 0.4);
-  --spot: rgba(99, 102, 241, 0.16);
-  --shadow: 0 24px 50px -26px rgba(79, 70, 229, 0.45);
-  --seg-off: rgba(79, 70, 229, 0.14);
+  --shadow: 0 34px 60px -32px rgba(79, 70, 229, 0.5);
+  --seg-off: rgba(79, 70, 229, 0.16);
   --tab-bg: rgba(255, 255, 255, 0.8);
   --floor-line: rgba(79, 70, 229, 0.1);
 }
 
-/* Faint grid floor, echoing the hero panel */
+/* Faint grid floor under the whole section */
 .band::after {
   content: '';
   position: absolute;
@@ -69,7 +69,7 @@
 }
 
 .header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.2rem;
   text-align: center;
 }
 
@@ -85,13 +85,13 @@
   color: var(--fg-soft);
 }
 
-/* ---------- Tabs ---------- */
-.tabBar {
-  display: flex;
-  justify-content: center;
-  gap: 0.4rem;
-  max-width: max-content;
-  margin: 0 auto 3rem;
+/* ---------- Dock: tabs with a springy sliding pill ---------- */
+.dock {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 660px;
+  margin: 0 auto 3.2rem;
   padding: 0.4rem;
   background: var(--tab-bg);
   backdrop-filter: blur(12px);
@@ -100,8 +100,23 @@
   border-radius: 999px;
 }
 
-.tabBtn {
-  padding: 0.65rem 1.3rem;
+.dockPill {
+  position: absolute;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  left: 0.4rem;
+  width: calc((100% - 0.8rem) / 3);
+  background: linear-gradient(135deg, #2f35ff, #8a5cff);
+  border-radius: 999px;
+  box-shadow: 0 10px 26px -8px var(--glow);
+  transform: translateX(calc(var(--idx) * 100%));
+  transition: transform 0.55s cubic-bezier(0.3, 1.35, 0.5, 1);
+}
+
+.dockBtn {
+  position: relative;
+  z-index: 1;
+  padding: 0.8rem 0.6rem;
   border: 0;
   border-radius: 999px;
   background: none;
@@ -110,189 +125,72 @@
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.2s ease, background 0.25s ease, box-shadow 0.25s ease;
+  transition: color 0.25s ease;
 }
 
-.tabBtn:hover { color: var(--fg); }
+.dockBtn:hover { color: var(--fg); }
 
-.tabBtn:focus-visible {
+.dockBtn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-.activeTab,
-.activeTab:hover {
-  background: linear-gradient(135deg, #2f35ff, #8a5cff);
-  color: #fff;
-  box-shadow: 0 8px 22px -8px var(--glow);
+.dockOn,
+.dockOn:hover { color: #fff; }
+
+.labelShort { display: none; }
+
+/* The panel tips up into place whenever a tab is chosen */
+.panel {
+  animation: enter 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 
-/* Content swaps in with a short rise whenever a tab is chosen */
-.panel {
-  animation: rise 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: perspective(1200px) rotateX(10deg) translateY(30px);
+  }
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(22px);
   }
 }
 
-/* ---------- Skill cards ---------- */
-.skillsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.25rem;
-  perspective: 1000px;
-}
-
-.skillCard {
-  --rx: 0deg;
-  --ry: 0deg;
-  --gx: 50%;
-  --gy: 0%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  padding: 1.4rem;
-  overflow: hidden;
-  background:
-    radial-gradient(240px circle at var(--gx) var(--gy), var(--spot), transparent 70%),
-    var(--glass);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 0.2s ease-out, border-color 0.25s ease, box-shadow 0.25s ease;
-  animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-  animation-delay: calc(var(--i) * 60ms);
-}
-
-.skillCard:hover {
-  border-color: var(--line-hover);
-  box-shadow: var(--shadow);
-}
-
-.skillTop {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.skillIcon {
+/* ---------- Shared small bits ---------- */
+.roundBtn {
   display: grid;
   place-items: center;
-  width: 52px;
-  height: 52px;
+  width: 46px;
+  height: 46px;
   flex: none;
-  background: var(--accent-soft);
+  padding: 0 0 3px;
+  background: var(--tab-bg);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  font-size: 1.6rem;
-}
-
-.skillName {
-  margin: 0;
-  font-size: 1.02rem;
-  font-weight: 700;
-}
-
-.skillLevel {
-  color: var(--accent);
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-/* Three-segment level meter that fills in when the card appears */
-.meter {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.4rem;
-}
-
-.meter i {
-  height: 5px;
-  border-radius: 99px;
-  background: var(--seg-off);
-}
-
-.meter i.on {
-  background: linear-gradient(90deg, #2f35ff, #8a5cff);
-  box-shadow: 0 0 10px var(--glow);
-  transform-origin: left;
-  animation: fill 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-  animation-delay: calc(var(--n) * 120ms + 300ms);
-}
-
-@keyframes fill {
-  from { transform: scaleX(0); }
-}
-
-/* ---------- Education timeline ---------- */
-.timeline {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 800px;
-  margin: 0 auto;
-  padding-left: 2.25rem;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 7px;
-  top: 8px;
-  bottom: 8px;
-  width: 2px;
-  background: linear-gradient(180deg, var(--accent), transparent);
-  box-shadow: 0 0 12px var(--glow);
-}
-
-.timelineItem {
-  position: relative;
-  animation: rise 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
-  animation-delay: calc(var(--i) * 120ms);
-}
-
-.timelinePoint {
-  position: absolute;
-  left: -2.25rem;
-  top: 1.75rem;
-  width: 16px;
-  height: 16px;
-  background: var(--bg);
-  border: 3px solid var(--accent);
   border-radius: 50%;
-  box-shadow: 0 0 0 4px var(--accent-soft), 0 0 14px var(--glow);
+  color: var(--fg);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
 }
 
-.timelineCard {
-  padding: 1.5rem;
-  background: var(--glass);
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.timelineCard:hover {
+.roundBtn:hover:not(:disabled) {
   border-color: var(--line-hover);
-  transform: translateX(4px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 24px -10px var(--glow);
+  transform: scale(1.08);
 }
 
-.cardTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
+.roundBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
-.cardTop h3 {
-  margin: 0;
-  font-size: 1.1rem;
+.roundBtn:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .scoreBadge {
@@ -307,7 +205,7 @@
 }
 
 .college {
-  margin: 0.5rem 0;
+  margin: 0.6rem 0;
   color: var(--fg-soft);
 }
 
@@ -317,73 +215,486 @@
   font-weight: 600;
 }
 
-/* ---------- Certifications ---------- */
-.extraGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
+/* ======================================================================
+   SKILLS: rotating 3D ring
+   ====================================================================== */
+.ringWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
 }
 
-.extraCard {
+.ringStage {
+  --cw: 176px;
+  --ch: 224px;
+  --r: 305px;
   position: relative;
-  padding: 1.9rem;
-  overflow: hidden;
-  background: var(--glass);
+  width: 100%;
+  height: 340px;
+  perspective: 1300px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  outline: none;
+}
+
+.ringStage:active { cursor: grabbing; }
+
+.ringStage:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: 24px;
+}
+
+.ring {
+  --angle: 0deg;
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--r) * -1)) rotateX(-6deg) rotateY(var(--angle));
+}
+
+.ringCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  width: var(--cw);
+  height: var(--ch);
+  margin: calc(var(--ch) / -2) 0 0 calc(var(--cw) / -2);
+  padding: 1rem;
+  background: var(--glass), var(--core);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  color: var(--fg);
+  font-family: var(--font-body);
+  text-align: center;
+  cursor: inherit;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: rotateY(calc(var(--i) * var(--step))) translateZ(var(--r));
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ringCard.isFront {
+  border-color: var(--line-hover);
+  box-shadow: 0 0 0 1px var(--line-hover), 0 24px 50px -18px var(--glow);
+}
+
+.ringIcon {
+  display: grid;
+  place-items: center;
+  width: 74px;
+  height: 74px;
+  background: var(--accent-soft);
   border: 1px solid var(--line);
   border-radius: 22px;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  font-size: 2.3rem;
 }
 
-/* A thin glowing edge along the top of each card */
-.extraCard::before {
-  content: '';
+.ringName {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ringFloor {
   position: absolute;
-  left: 1.5rem;
-  right: 1.5rem;
-  top: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  box-shadow: 0 0 14px var(--glow);
+  bottom: 6px;
+  left: 50%;
+  width: min(560px, 90%);
+  height: 70px;
+  background: radial-gradient(closest-side, var(--glow), transparent);
+  filter: blur(14px);
+  opacity: 0.55;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
-.extraCard:hover {
+.skillInfo {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.skillInfoBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 230px;
+  animation: pop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+}
+
+.skillInfoName {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.skillInfoLevel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.segs {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 14px);
+  gap: 4px;
+}
+
+.segs i {
+  height: 5px;
+  border-radius: 99px;
+  background: var(--seg-off);
+}
+
+.segs i.segOn {
+  background: linear-gradient(90deg, #2f35ff, #8a5cff);
+  box-shadow: 0 0 8px var(--glow);
+}
+
+/* ======================================================================
+   EDUCATION: stack of cards in depth
+   ====================================================================== */
+.deckWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
+}
+
+.deckStage {
+  width: 100%;
+  max-width: 760px;
+  padding-top: 64px;
+  perspective: 1400px;
+}
+
+.deck {
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  height: 290px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.25s ease-out;
+}
+
+.deckCard {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 2.2rem;
+  overflow: hidden;
+  background: var(--glass), var(--core);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  opacity: calc(1 - var(--d) * 0.3);
+  transform: translate3d(0, calc(var(--d) * -28px), calc(var(--d) * -90px));
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, border-color 0.3s ease;
+}
+
+.deckCard:not(.front) { cursor: pointer; }
+.deckCard:not(.front):hover { border-color: var(--line-hover); }
+
+.deckCard.front { border-color: var(--line-hover); }
+
+.deckCard.gone {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-110%, 0, 140px) rotateZ(-9deg);
+}
+
+.deckYear {
+  position: absolute;
+  right: 1.6rem;
+  bottom: -0.6rem;
+  color: transparent;
+  font-size: 8rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  -webkit-text-stroke: 1px var(--line-hover);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.deckHead {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.deckHead h3 {
+  margin: 0;
+  max-width: 24ch;
+  font-size: 1.55rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.deckCard .college,
+.deckCard .period {
+  position: relative;
+}
+
+.deckNav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.chips {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 78px;
+  padding: 0.55rem 1rem;
+  background: var(--tab-bg);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--fg-soft);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.chip small {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.chip:hover {
+  color: var(--fg);
+  border-color: var(--line-hover);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.chipOn,
+.chipOn:hover {
+  background: linear-gradient(135deg, #2f35ff, #8a5cff);
+  border-color: transparent;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ======================================================================
+   CREDENTIALS: flip cards
+   ====================================================================== */
+.groups {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+.groupTitle {
+  margin: 0 0 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.groupCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+.flip {
+  width: 100%;
+  height: 230px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-family: var(--font-body);
+  perspective: 1000px;
+  cursor: pointer;
+  animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i) * 110ms);
+}
+
+.flip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 24px;
+}
+
+.flipInner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.flipFace {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1.3rem;
+  background: var(--glass), var(--core);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  text-align: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.flip:hover .flipFace {
   border-color: var(--line-hover);
   box-shadow: var(--shadow);
 }
 
-.extraCard h3 {
-  margin: 0 0 1rem;
+.flipFront::after {
+  content: '↻';
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
   color: var(--accent);
   font-size: 1.1rem;
+  opacity: 0.7;
 }
 
-.list {
-  margin: 0;
-  padding-left: 1.2rem;
-  color: var(--fg-soft);
-  line-height: 1.6;
+.flipBack {
+  transform: rotateY(180deg);
+  border-color: var(--line-hover);
 }
 
-.list li { margin-bottom: 0.8rem; }
+@media (hover: hover) {
+  .flip:hover .flipInner,
+  .flip:focus-visible .flipInner { transform: rotateY(180deg); }
+}
 
-.list strong {
-  color: var(--fg);
+@media (hover: none) {
+  .flipped .flipInner { transform: rotateY(180deg); }
+}
+
+.medal {
+  font-size: 2.8rem;
+  line-height: 1;
+  filter: drop-shadow(0 10px 14px var(--glow));
+  animation: bob 4s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.flipTitle {
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.flipSub {
+  color: var(--accent);
+  font-size: 0.85rem;
   font-weight: 600;
 }
 
-@media (max-width: 768px) {
-  .band { padding: 5rem 1.25rem 6rem; }
-  .extraGrid { grid-template-columns: 1fr; }
-  .tabBar { flex-direction: column; width: 100%; max-width: none; border-radius: 22px; }
-  .tabBtn { width: 100%; }
-  .cardTop { flex-direction: column; align-items: flex-start; }
+.flipBig {
+  color: var(--accent);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.flipText {
+  color: var(--fg-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .groups { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+@media (max-width: 640px) {
+  .band { padding: 5rem 1rem 6rem; }
+
+  .labelFull { display: none; }
+  .labelShort { display: inline; }
+  .dockBtn { font-size: 0.85rem; }
+
+  .ringStage {
+    --cw: 140px;
+    --ch: 184px;
+    --r: 235px;
+    height: 280px;
+    perspective: 1000px;
+  }
+
+  .ringIcon { width: 58px; height: 58px; font-size: 1.8rem; border-radius: 18px; }
+  .ringName { font-size: 0.92rem; }
+
+  .skillInfoBody { min-width: 0; }
+  .skillInfo { gap: 0.8rem; }
+
+  .deckStage { padding-top: 54px; }
+  .deck { height: 330px; }
+  .deckCard { padding: 1.5rem; }
+  .deckHead { flex-direction: column; }
+  .deckHead h3 { font-size: 1.25rem; }
+  .deckYear { font-size: 5rem; }
+
+  .deckNav { gap: 0.6rem; }
+  .chip { min-width: 64px; padding: 0.5rem 0.7rem; }
+
+  .flip { height: 210px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .panel,
-  .skillCard,
-  .timelineItem,
-  .meter i.on { animation: none; }
-  .skillCard { transform: none; }
-  .timelineCard:hover { transform: none; }
+  .flip,
+  .medal,
+  .skillInfoBody { animation: none; }
+
+  .dockPill,
+  .deckCard,
+  .flipInner,
+  .deck { transition-duration: 0.01ms; }
 }
