@@ -1,76 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+/* Animated angle used by the orbiting skill chips in the hero (3D). */
+@property --a {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
 
 :root {
-  /* ---- Surfaces (Mumbai Indians Dark Theme) ---- */
-  --bg-main: #060e1a;
-  /* Deep Ocean Navy */
-  --bg-card: #0b172a;
-  /* Dark Blue Card */
-  --bg-card-hover: #10213d;
-  /* Slightly Lighter Navy */
-  --border: rgba(212, 175, 55, 0.15);
-  /* Subtle Gold Tint Border */
-  --border-hover: rgba(212, 175, 55, 0.6);
-  /* Vibrant Gold Border Accent */
+  /* ---- Surfaces: Midnight Indigo ---- */
+  --bg-main: #100d26;
+  --bg-card: #1a1638;
+  --bg-card-hover: #231e4a;
+  --nav-bg: rgba(16, 13, 38, 0.72);
+  --border: rgba(167, 155, 255, 0.16);
+  --border-hover: rgba(167, 155, 255, 0.5);
 
   /* ---- Text ---- */
-  --text-main: #f0f4f8;
-  --text-muted: #8aa0bf;
+  --text-main: #f1efff;
+  --text-muted: #a39fc9;
 
-  /* ---- Signal accent (MI Gold) ---- */
-  --accent: #d4af37;
-  /* Trophy Gold */
-  --accent-strong: #ffd700;
-  /* Bright Gold Accent */
-  --accent-contrast: #060e1a;
-  /* Contrast Text on Gold */
-  --accent-soft: rgba(212, 175, 55, 0.12);
-  --accent-glow: #d4af37;
+  /* ---- Accents: Electric Violet + Peach ---- */
+  --accent: #9b87ff;
+  --accent-strong: #b9abff;
+  --accent-2: #ff9f80;
+  --accent-contrast: #100d26;
+  --accent-soft: rgba(155, 135, 255, 0.14);
+  --accent-glow: rgba(124, 92, 255, 0.45);
 
-  --gradient-accent: linear-gradient(120deg, #004ba0 0%, #d4af37 100%);
-  /* MI Blue to Gold Gradient */
+  --mesh-a: rgba(124, 92, 255, 0.22);
+  --mesh-b: rgba(255, 159, 128, 0.1);
 
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 0 1px var(--border-hover), 0 8px 24px var(--accent-glow);
+  --shadow: 0 18px 40px -12px rgba(5, 3, 20, 0.7);
+  --shadow-glow: 0 0 0 1px var(--border-hover), 0 10px 30px -6px var(--accent-glow);
 
   /* ---- Type ---- */
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Outfit', sans-serif;
-  --font-mono: 'JetBrains Mono', 'SFMono-Regular', monospace;
+  --font-heading: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
   /* ---- Shape / layout ---- */
   --max-width: 1200px;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --radius: 20px;
+  --radius-sm: 12px;
   --radius-pill: 999px;
-  --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 [data-theme="light"] {
-  /* ---- Surfaces (Mumbai Indians Light Theme) ---- */
-  --bg-main: #f2f6fa;
-  /* Light Ice Blue Background */
+  /* ---- Surfaces: Lavender Paper ---- */
+  --bg-main: #f4f2ff;
   --bg-card: #ffffff;
-  /* Pure White Card */
-  --bg-card-hover: #ffffff;
-  --border: rgba(0, 75, 160, 0.12);
-  --border-hover: rgba(0, 75, 160, 0.45);
+  --bg-card-hover: #faf9ff;
+  --nav-bg: rgba(244, 242, 255, 0.78);
+  --border: rgba(70, 50, 200, 0.12);
+  --border-hover: rgba(70, 50, 200, 0.4);
 
-  --text-main: #060e1a;
-  --text-muted: #4a5d78;
+  --text-main: #1a1540;
+  --text-muted: #5d5a87;
 
-  /* ---- Signal accent (MI Blue Accent) ---- */
-  --accent: #004ba0;
-  /* MI Primary Blue */
-  --accent-strong: #003370;
+  --accent: #5b3df5;
+  --accent-strong: #4528d6;
+  --accent-2: #ff7a52;
   --accent-contrast: #ffffff;
-  --accent-soft: rgba(0, 75, 160, 0.08);
-  --accent-glow: rgba(0, 75, 160, 0.18);
+  --accent-soft: rgba(91, 61, 245, 0.08);
+  --accent-glow: rgba(91, 61, 245, 0.28);
 
-  --gradient-accent: linear-gradient(120deg, #004ba0 0%, #b38f24 100%);
+  --mesh-a: rgba(91, 61, 245, 0.12);
+  --mesh-b: rgba(255, 122, 82, 0.1);
 
-  --shadow: 0 10px 30px rgba(0, 75, 160, 0.08);
-  --shadow-glow: 0 0 0 1px var(--border-hover), 0 8px 24px var(--accent-glow);
+  --shadow: 0 18px 40px -14px rgba(60, 40, 160, 0.25);
 }
 
 * {
@@ -79,7 +78,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 84px;
 }
 
 body {
@@ -90,9 +89,18 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
-  /* Subtle background grid */
-  background-image: radial-gradient(var(--border) 1px, transparent 1.5px);
-  background-size: 32px 32px;
+}
+
+/* Soft colour wash behind the whole page */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 8% -10%, var(--mesh-a), transparent 60%),
+    radial-gradient(50rem 40rem at 100% 25%, var(--mesh-b), transparent 60%);
 }
 
 h1,
@@ -102,7 +110,7 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin: 0;
 }
 
@@ -110,20 +118,20 @@ a {
   color: inherit;
 }
 
-/* Reusable "// eyebrow" label */
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--accent);
-  letter-spacing: 0.02em;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
-/* Custom Scrollbar */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }

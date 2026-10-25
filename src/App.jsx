@@ -5,6 +5,7 @@ import Hero from './Components/Hero/Hero';
 import Skills from './Components/Skills/Skills';
 import Projects from './Components/Projects/Projects';
 import Contact from './Components/Contact/Contact';
+import Footer from './Components/Contact/Footer';
 import './Styles/variables.css';
 
 export default function App() {
@@ -24,8 +25,12 @@ export default function App() {
           <Projects />
         </section>
 
-        <section id="contact">
+        {/* <section id="contact">
           <Contact />
+        </section> */}
+
+         <section id="footer">
+          <Footer />
         </section>
       </main>
     </ThemeProvider>

@@ -5,17 +5,18 @@
 }
 
 .header {
-  text-align: center;
   margin-bottom: 2.5rem;
+  text-align: center;
 }
 
 .title {
-  font-size: 2.25rem;
-  font-weight: 800;
   margin-bottom: 0.5rem;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
 }
 
 .subtitle {
+  margin: 0;
   color: var(--text-muted);
 }
 
@@ -23,25 +24,23 @@
   display: flex;
   justify-content: center;
   gap: 0.4rem;
-  margin-bottom: 3rem;
-  background: var(--bg-card);
-  padding: 0.4rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
   max-width: max-content;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto 3rem;
+  padding: 0.4rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
 }
 
 .tabBtn {
-  background: none;
-  border: none;
-  color: var(--text-muted);
   padding: 0.6rem 1.25rem;
+  border: none;
   border-radius: var(--radius-pill);
+  background: none;
+  color: var(--text-muted);
   font-family: var(--font-body);
-  font-weight: 600;
   font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
   transition: var(--transition);
 }
@@ -50,7 +49,8 @@
   color: var(--text-main);
 }
 
-.activeTab, .activeTab:hover {
+.activeTab,
+.activeTab:hover {
   background: var(--accent);
   color: var(--accent-contrast);
 }
@@ -59,22 +59,24 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.25rem;
+  perspective: 1000px;
 }
 
 .skillCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  padding: 1.25rem;
-  border-radius: var(--radius);
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   transition: var(--transition);
 }
 
 .skillCard:hover {
   border-color: var(--border-hover);
-  transform: translateY(-3px);
+  transform: translateY(-4px) rotateX(6deg);
+  box-shadow: var(--shadow);
 }
 
 .skillIcon {
@@ -88,24 +90,51 @@
 }
 
 .skillLevel {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
   color: var(--accent);
-  font-weight: 500;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
+/* Education timeline */
 .timeline {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   max-width: 800px;
   margin: 0 auto;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border-hover);
+}
+
+.timelineItem {
+  position: relative;
+}
+
+.timelinePoint {
+  position: absolute;
+  left: -2rem;
+  top: 1.7rem;
+  width: 16px;
+  height: 16px;
+  background: var(--bg-main);
+  border: 3px solid var(--accent);
+  border-radius: 50%;
 }
 
 .timelineCard {
+  padding: 1.5rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 1.5rem;
   border-radius: var(--radius);
 }
 
@@ -116,28 +145,32 @@
   gap: 1rem;
 }
 
+.cardTop h3 {
+  font-size: 1.1rem;
+}
+
 .scoreBadge {
-  font-family: var(--font-mono);
+  padding: 0.2rem 0.7rem;
   background: var(--accent-soft);
+  border-radius: var(--radius-pill);
   color: var(--accent);
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
   font-size: 0.85rem;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .college {
-  color: var(--text-muted);
   margin: 0.5rem 0;
+  color: var(--text-muted);
 }
 
 .period {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
   color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
+/* Certifications */
 .extraGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -145,21 +178,21 @@
 }
 
 .extraCard {
+  padding: 1.75rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 1.75rem;
   border-radius: var(--radius);
 }
 
 .extraCard h3 {
-  margin-top: 0;
-  font-size: 1.1rem;
+  margin-bottom: 1rem;
   color: var(--accent);
+  font-size: 1.1rem;
 }
 
 .list {
-  padding-left: 1.2rem;
   margin: 0;
+  padding-left: 1.2rem;
   color: var(--text-muted);
 }
 
@@ -173,6 +206,6 @@
 
 @media (max-width: 768px) {
   .extraGrid { grid-template-columns: 1fr; }
-  .tabBar { flex-direction: column; width: 100%; border-radius: 12px; }
+  .tabBar { flex-direction: column; width: 100%; max-width: none; border-radius: 16px; }
   .tabBtn { width: 100%; }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './Projects.module.css';
 
 const projects = [
@@ -49,17 +49,49 @@ const projects = [
   }
 ];
 
+// Card that tilts in 3D toward the pointer
+function TiltCard({ children, className }) {
+  const ref = useRef(null);
+
+  const handleMove = (e) => {
+    if (e.pointerType === 'touch') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    el.style.setProperty('--ry', `${((px - 0.5) * 14).toFixed(2)}deg`);
+    el.style.setProperty('--rx', `${((0.5 - py) * 14).toFixed(2)}deg`);
+    el.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+    el.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+  };
+
+  const handleLeave = () => {
+    const el = ref.current;
+    if (!el) return;
+    el.style.setProperty('--rx', '0deg');
+    el.style.setProperty('--ry', '0deg');
+  };
+
+  return (
+    <div ref={ref} className={className} onPointerMove={handleMove} onPointerLeave={handleLeave}>
+      {children}
+    </div>
+  );
+}
+
 export default function Projects() {
   return (
-    <section className={styles.section}>
+    <section id="projects" className={styles.section}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Featured Projects</h2>
+        <h2 className={styles.title}>Featured projects</h2>
         <p className={styles.subtitle}>Selected applications across web design, frontend systems, and machine learning.</p>
       </div>
 
       <div className={styles.grid}>
-        {projects.map((item, idx) => (
-          <div key={idx} className={styles.card}>
+        {projects.map((item) => (
+          <TiltCard key={item.title} className={styles.card}>
             <div className={styles.cardTop}>
               <span className={styles.badge}>{item.badge}</span>
               <span className={styles.year}>{item.year}</span>
@@ -70,20 +102,20 @@ export default function Projects() {
 
             <div className={styles.cardFooter}>
               <div className={styles.tags}>
-                {item.tags.map((tag, tIdx) => (
-                  <span key={tIdx} className={styles.tag}>{tag}</span>
+                {item.tags.map((tag) => (
+                  <span key={tag} className={styles.tag}>{tag}</span>
                 ))}
               </div>
 
               {item.link ? (
                 <a href={item.link} target="_blank" rel="noopener noreferrer" className={styles.liveBtn}>
-                  Live Demo ↗
+                  Live demo ↗
                 </a>
               ) : (
-                <span className={styles.repoLabel}>Source / Docs</span>
+                <span className={styles.repoLabel}>Source / docs</span>
               )}
             </div>
-          </div>
+          </TiltCard>
         ))}
       </div>
     </section>
