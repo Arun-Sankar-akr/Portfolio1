@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useTheme } from '../../Context/ThemeContext';
 import styles from './Footer.module.css';
 
 const EMAIL = 'arunsankarramakr@gmail.com';
@@ -59,6 +60,7 @@ function WeatherIcon({ code }) {
 }
 
 export default function Footer() {
+  const { theme } = useTheme();
   const panelRef = useRef(null);
   const [time, setTime] = useState('');
   const [weather, setWeather] = useState(null);
@@ -116,7 +118,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className={styles.wrap}>
+    <footer className={styles.wrap} data-mode={theme}>
       <div className={styles.panel} ref={panelRef} onPointerMove={handleMove} onPointerLeave={handleLeave}>
         <div className={styles.top}>
           <p className={styles.bio}>
@@ -161,28 +163,10 @@ export default function Footer() {
             <span className={styles.ctaSub}>Live demos and builds</span>
           </div>
         </div>
-
         {/* Giant name, cropped by the panel edge */}
-        <svg className={styles.mark} viewBox="0 0 1000 130" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="akrGradient" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" style={{ stopColor: 'var(--accent)' }} />
-              <stop offset="100%" style={{ stopColor: 'var(--accent-2)' }} />
-            </linearGradient>
-          </defs>
-          <text
-            x="-5"
-            y="190"
-            fontSize="236"
-            fontWeight="800"
-            textLength="1010"
-            lengthAdjust="spacingAndGlyphs"
-            fill="url(#akrGradient)"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Arun AKR
-          </text>
-        </svg>
+        <div className={styles.markWrap} aria-hidden="true">
+          <div className={styles.mark}>ARUN AKR</div>
+        </div>
       </div>
 
       <div className={styles.bottom}>

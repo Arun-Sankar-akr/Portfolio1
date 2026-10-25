@@ -99,14 +99,10 @@ export default function Navbar() {
   });
 
   return (
-    <header ref={navRef} className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+    <header ref={navRef} data-mode={theme} className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
+        <div className={styles.bar}>
         <a href="#hero" className={styles.logo} onClick={closeAll}>
-          <svg className={styles.logoMark} width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" aria-hidden="true">
-            <path d="M4 9l10-5 10 5-10 5z" />
-            <path d="M4 14l10 5 10-5" />
-            <path d="M4 19l10 5 10-5" />
-          </svg>
           Arun AKR
         </a>
 
@@ -166,13 +162,8 @@ export default function Navbar() {
           </button>
 
           <a href="#contact" className={styles.hireBtn}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M13 2 4 14h7l-1 8 9-12h-7z" />
-            </svg>
             Hire me
           </a>
-
-          <span className={styles.avatar} title="Arun Sankar Ram" aria-hidden="true">AK</span>
 
           <button
             type="button"
@@ -185,6 +176,7 @@ export default function Navbar() {
             <span></span>
             <span></span>
           </button>
+        </div>
         </div>
       </div>
     </header>

@@ -1,24 +1,95 @@
-.section {
-  padding: 5rem 1.5rem;
-  max-width: var(--max-width);
+/* ---------- Theme tokens: dark is the default, light overrides ---------- */
+.band {
+  --bg: #02020f;
+  --fg: #fff;
+  --fg-soft: rgba(223, 227, 255, 0.68);
+  --accent: #9aa2ff;
+  --accent-soft: rgba(125, 134, 255, 0.2);
+  --glass: linear-gradient(160deg, rgba(40, 40, 120, 0.35), rgba(10, 10, 45, 0.55));
+  --line: rgba(160, 170, 255, 0.22);
+  --line-hover: rgba(160, 170, 255, 0.55);
+  --glow: rgba(110, 100, 255, 0.55);
+  --spot: rgba(140, 150, 255, 0.26);
+  --shadow: 0 24px 50px -24px rgba(60, 60, 255, 0.6);
+  --chip: rgba(70, 70, 170, 0.28);
+  --floor-line: rgba(150, 140, 255, 0.14);
+  --btn-bg: linear-gradient(180deg, #f6f6ff, #b3b6d2);
+  --btn-fg: #0b0b1e;
+  --btn-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 8px 20px -10px rgba(110, 100, 255, 0.8);
+
+  position: relative;
+  padding: 6rem 1.5rem 7rem;
+  background:
+    radial-gradient(60% 40% at 50% 0%, rgba(60, 60, 255, 0.2), transparent),
+    var(--bg);
+  color: var(--fg);
+  overflow: hidden;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.band[data-mode='light'] {
+  --bg: #f3f4ff;
+  --fg: #10123a;
+  --fg-soft: rgba(16, 18, 58, 0.68);
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.1);
+  --glass: linear-gradient(160deg, #fff, rgba(240, 242, 255, 0.9));
+  --line: rgba(79, 70, 229, 0.16);
+  --line-hover: rgba(79, 70, 229, 0.45);
+  --glow: rgba(99, 102, 241, 0.35);
+  --spot: rgba(99, 102, 241, 0.14);
+  --shadow: 0 14px 34px -22px rgba(79, 70, 229, 0.38);
+  --chip: rgba(79, 70, 229, 0.08);
+  --floor-line: rgba(79, 70, 229, 0.1);
+  --btn-bg: linear-gradient(180deg, #6366f1, #4338ca);
+  --btn-fg: #fff;
+  --btn-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 12px -6px rgba(79, 70, 229, 0.5);
+}
+
+/* Faint grid floor, same as the hero panel and skills */
+.band::after {
+  content: '';
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -10%;
+  height: 45%;
+  background-image:
+    linear-gradient(var(--floor-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--floor-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(500px) rotateX(62deg);
+  transform-origin: 50% 100%;
+  mask-image: linear-gradient(to top, #000, transparent 85%);
+  -webkit-mask-image: linear-gradient(to top, #000, transparent 85%);
+  pointer-events: none;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width, 1180px);
   margin: 0 auto;
 }
 
 .header {
   margin-bottom: 3rem;
+  text-align: center;
 }
 
 .title {
-  margin-bottom: 0.5rem;
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  margin: 0 0 0.6rem;
+  font-size: clamp(2rem, 4vw, 2.9rem);
   font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .subtitle {
   margin: 0;
-  color: var(--text-muted);
+  color: var(--fg-soft);
 }
 
+/* ---------- Grid + cards ---------- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
@@ -35,28 +106,45 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
+  padding: 1.5rem 1.6rem 1.7rem;
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 24px;
   transform-style: preserve-3d;
   transform: rotateX(var(--rx)) rotateY(var(--ry));
   transition: transform 0.2s ease-out, border-color 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
 }
 
+/* Hidden until the grid scrolls into view, then each card rises in turn */
+.grid:not(.in) .card {
+  opacity: 0;
+}
+
+.in .card {
+  animation: rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i) * 90ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(26px) rotateX(10deg);
+  }
+}
+
 .card:hover {
-  border-color: var(--border-hover);
+  border-color: var(--line-hover);
   box-shadow: var(--shadow);
 }
 
-/* light that follows the pointer */
+/* Light that follows the pointer */
 .card::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: radial-gradient(circle at var(--mx) var(--my), var(--accent-soft), transparent 55%);
+  background: radial-gradient(circle at var(--mx) var(--my), var(--spot), transparent 55%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -66,30 +154,89 @@
   opacity: 1;
 }
 
-/* content sits slightly above the card face for depth */
+/* Glowing edge along the top, like the skills cards */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 1.5rem;
+  right: 1.5rem;
+  top: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 14px var(--glow);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Content sits slightly above the card face for depth */
 .projectTitle,
 .cardFooter {
   transform: translateZ(28px);
+}
+
+.addr,
+.cardTop {
+  transform: translateZ(18px);
+}
+
+/* Address strip */
+.addr {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.dots {
+  display: flex;
+  gap: 5px;
+}
+
+.dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line-hover);
+}
+
+.dots i:first-child { background: #8a5cff; }
+.dots i:nth-child(2) { background: var(--accent); }
+
+.host {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--fg-soft);
+  font-size: 0.78rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cardTop {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transform: translateZ(18px);
 }
 
 .badge {
-  padding: 0.2rem 0.7rem;
+  padding: 0.2rem 0.75rem;
   background: var(--accent-soft);
-  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  border-radius: 999px;
   color: var(--accent);
   font-size: 0.78rem;
   font-weight: 600;
 }
 
 .year {
-  color: var(--text-muted);
+  color: var(--fg-soft);
   font-size: 0.85rem;
   font-variant-numeric: tabular-nums;
 }
@@ -98,12 +245,14 @@
   margin: 1rem 0 0.5rem;
   font-size: 1.3rem;
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .description {
   margin: 0 0 1.5rem;
-  color: var(--text-muted);
+  color: var(--fg-soft);
   font-size: 0.92rem;
+  line-height: 1.6;
 }
 
 .cardFooter {
@@ -119,40 +268,61 @@
 }
 
 .tag {
-  padding: 0.2rem 0.6rem;
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  color: var(--text-muted);
+  padding: 0.2rem 0.65rem;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--fg-soft);
   font-size: 0.78rem;
 }
 
 .liveBtn {
-  display: inline-block;
-  padding: 0.65rem;
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-main);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1rem;
+  background: var(--btn-bg);
+  border-radius: 999px;
+  color: var(--btn-fg);
   font-size: 0.88rem;
-  font-weight: 600;
-  text-align: center;
+  font-weight: 700;
   text-decoration: none;
-  transition: var(--transition);
+  box-shadow: var(--btn-shadow);
+  transition: transform 0.25s ease;
 }
 
 .liveBtn:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--accent-contrast);
+  transform: translateY(-2px);
+}
+
+.liveBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 .repoLabel {
-  display: inline-block;
-  padding: 0.65rem;
-  border: 1px dashed var(--border-hover);
-  border-radius: var(--radius-sm);
-  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1rem;
+  border: 1px dashed var(--line-hover);
+  border-radius: 999px;
+  color: var(--fg-soft);
   font-size: 0.85rem;
-  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .band { padding: 5rem 1.25rem 6rem; }
+  .card { padding: 1.3rem 1.3rem 1.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .in .card { animation: none; }
+  .grid:not(.in) .card { opacity: 1; }
+  .card { transform: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+  .projectTitle,
+  .cardFooter,
+  .addr,
+  .cardTop { transform: none; }
+  .liveBtn:hover { transform: none; }
 }
